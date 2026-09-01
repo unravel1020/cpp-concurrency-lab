@@ -1,0 +1,24 @@
+# 统一 LF 行尾，避免 Windows/WSL 两侧 CRLF 抖动
+* text=auto
+
+*.cpp text eol=lf
+*.hpp text eol=lf
+*.h text eol=lf
+*.cc text eol=lf
+*.c text eol=lf
+*.cu text eol=lf
+*.cuh text eol=lf
+*.cmake text eol=lf
+CMakeLists.txt text eol=lf
+*.md text eol=lf
+*.sh text eol=lf
+*.py text eol=lf
+*.json text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.zip binary
+*.pdf binary

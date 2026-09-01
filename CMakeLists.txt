@@ -15,12 +15,17 @@ target_link_libraries(demo PRIVATE concurrency_lab)
 
 include(CTest)
 if(BUILD_TESTING)
-  include(FetchContent)
-  FetchContent_Declare(
-    googletest
-    URL https://github.com/google/googletest/archive/refs/tags/v1.14.0.zip
-  )
-  FetchContent_MakeAvailable(googletest)
+  # 优先用系统包（apt install libgtest-dev），没有再从网络拉取
+  find_package(GTest QUIET)
+  if(NOT GTest_FOUND)
+    message(STATUS "GTest not found, fetching googletest from network...")
+    include(FetchContent)
+    FetchContent_Declare(
+      googletest
+      URL https://github.com/google/googletest/archive/refs/tags/v1.14.0.zip
+    )
+    FetchContent_MakeAvailable(googletest)
+  endif()
 
   add_executable(thread_pool_test tests/thread_pool_test.cpp)
   target_link_libraries(thread_pool_test PRIVATE concurrency_lab GTest::gtest_main)
@@ -29,12 +34,17 @@ endif()
 
 option(BUILD_BENCHMARKS "Build google benchmark targets" ON)
 if(BUILD_BENCHMARKS)
-  FetchContent_Declare(
-    googlebench
-    URL https://github.com/google/benchmark/archive/refs/tags/v1.8.3.zip
-  )
-  set(BENCHMARK_ENABLE_TESTING OFF CACHE BOOL "" FORCE)
-  FetchContent_MakeAvailable(googlebench)
+  find_package(benchmark QUIET)
+  if(NOT benchmark_FOUND)
+    message(STATUS "benchmark not found, fetching from network...")
+    include(FetchContent)
+    FetchContent_Declare(
+      googlebench
+      URL https://github.com/google/benchmark/archive/refs/tags/v1.8.3.zip
+    )
+    set(BENCHMARK_ENABLE_TESTING OFF CACHE BOOL "" FORCE)
+    FetchContent_MakeAvailable(googlebench)
+  endif()
 
   add_executable(pool_bench benchmarks/pool_bench.cpp)
   target_link_libraries(pool_bench PRIVATE concurrency_lab benchmark::benchmark)
