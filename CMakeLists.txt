@@ -6,6 +6,10 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 if(NOT MSVC)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra")
 endif()
+# MSVC: 源码为 UTF-8（含中文注释），否则预处理器按 GBK 解析会吞掉 include
+if(MSVC)
+  add_compile_options(/utf-8)
+endif()
 
 add_library(concurrency_lab INTERFACE)
 target_include_directories(concurrency_lab INTERFACE src)
