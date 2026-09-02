@@ -46,6 +46,24 @@ cmake --preset release          # Release 版
 cmake --build build-release
 ```
 
+## 每日实验（dayNN/ 快速测试）
+
+按计划每天一个 `.cpp` 丢进 `dayNN/`（如 `day01/raii.cpp`），CMake 自动注册为同名可执行文件：
+
+```bash
+cmake -S . -B build      # 首次配置 / 新增 dayNN 文件后重跑一次（自动重新扫描）
+cmake --build build      # 编译（自动增量）
+./build/raii             # 运行（目标名 = 文件名，Linux/WSL 下）
+```
+
+改完代码只需：
+
+```bash
+cmake --build build && ./build/raii
+```
+
+不用手动 `g++ xxx.cpp`，保持 out-of-source 构建习惯，也和 AI Systems 工程习惯一致。
+
 ## 路线图
 
 - [x] ThreadPool + BlockingQueue（C++17, RAII, move semantics）

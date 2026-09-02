@@ -53,3 +53,16 @@ if(BUILD_BENCHMARKS)
   add_executable(pool_bench benchmarks/pool_bench.cpp)
   target_link_libraries(pool_bench PRIVATE concurrency_lab benchmark::benchmark)
 endif()
+
+# ---- 每日实验：dayNN/*.cpp 自动注册为同名可执行文件 ----
+# 用法：在 dayNN/ 放一个 .cpp（如 day01/raii.cpp），然后
+#   cmake -S . -B build   （首次或新增文件后）
+#   cmake --build build   （编译，目标名 = 文件名，如 raii）
+#   ./build/raii          （运行）
+file(GLOB DAY_SOURCES CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/day*/*.cpp")
+foreach(day_src ${DAY_SOURCES})
+  get_filename_component(day_exe "${day_src}" NAME_WE)
+  add_executable(${day_exe} ${day_src})
+  target_link_libraries(${day_exe} PRIVATE concurrency_lab)
+  message(STATUS "Day target: ${day_exe} <- ${day_src}")
+endforeach()
