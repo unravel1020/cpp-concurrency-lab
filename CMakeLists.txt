@@ -66,3 +66,8 @@ foreach(day_src ${DAY_SOURCES})
   target_link_libraries(${day_exe} PRIVATE concurrency_lab)
   message(STATUS "Day target: ${day_exe} <- ${day_src}")
 endforeach()
+
+# 旧习惯遗留文件（手动 g++ 时代）：modern-cpp/RAII.cpp
+# 命名 modern_raii 以避免与 day01/raii 在 Windows 大小写不敏感文件系统上冲突
+add_executable(modern_raii modern-cpp/RAII.cpp)
+target_link_libraries(modern_raii PRIVATE concurrency_lab)
